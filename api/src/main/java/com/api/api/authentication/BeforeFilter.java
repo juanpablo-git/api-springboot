@@ -9,6 +9,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.api.api.repository.UserInterface;
 import com.api.api.service.TokenService;
+import com.auth0.jwt.interfaces.Claim;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -31,8 +32,8 @@ public class BeforeFilter extends OncePerRequestFilter {
                         System.out.println("Chegou aqui");
 
            
-            String signin = tokenService.verifyToken(request.getHeader("Authorization").replace("Bearer ", ""));
-            UserDetails usuario = userInterface.findByLogin("jj");
+            Claim signin = tokenService.verifyToken(request.getHeader("Authorization").replace("Bearer ", ""));
+            UserDetails usuario = userInterface.findBylogin(signin.toString());
             System.out.println(usuario);
             
             // var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());

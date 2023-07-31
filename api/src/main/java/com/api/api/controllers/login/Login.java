@@ -24,7 +24,7 @@ public class Login {
     @PostMapping
     public ResponseEntity postMethodName(@RequestBody LoginDTO data) {
         
-        UserDetails login = this.user.findByLogin(data.user());
+        UserDetails login = this.user.findBylogin(data.user());
 
         return ResponseEntity.ok(tokenService.createJWT(data));
     }

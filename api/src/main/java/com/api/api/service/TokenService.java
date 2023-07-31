@@ -19,20 +19,18 @@ public class TokenService {
                 .withIssuer("auth-api")
                 .withSubject("user")
                 .withClaim("user", login.user())
-                .withClaim("number-claim", 42)
-                .withClaim("bool-claim", true)
                 .sign(algorithm);
         return token;
     }
 
-    public String verifyToken(String token) {
+    public Claim verifyToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(this.secreti);
 
-        String jj = JWT
+        Claim jj = JWT
                 .require(algorithm)
                 .withIssuer("auth-api")
                 .build()
-                .verify(token).getClaim("user").toString();
+                .verify(token).getClaim("user");
          
                 return jj;
 
