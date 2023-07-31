@@ -3,6 +3,8 @@ package com.api.api.authentication;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -32,12 +34,11 @@ public class BeforeFilter extends OncePerRequestFilter {
                         System.out.println("Chegou aqui");
 
            
-            Claim signin = tokenService.verifyToken(request.getHeader("Authorization").replace("Bearer ", ""));
-            UserDetails usuario = userInterface.findBylogin(signin.toString());
+            UserDetails usuario = userInterface.findBylogin("jj");
             System.out.println(usuario);
             
-            // var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-            // SecurityContextHolder.getContext().setAuthentication(authentication);
+            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);
