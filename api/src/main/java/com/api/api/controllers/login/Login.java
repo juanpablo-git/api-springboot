@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.api.repository.UserInterface;
+import com.api.api.service.TokenService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,10 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class Login {
     @Autowired
     UserInterface user;
+    @Autowired
+    TokenService tokenService;
+
     @PostMapping
     public ResponseEntity postMethodName(@RequestBody LoginDTO data) {
-        UserDetails login = this.user.findByLogin(data.user()); 
-        return ResponseEntity.ok(login);
+        
+        UserDetails login = this.user.findByLogin(data.user());
+
+        return ResponseEntity.ok(tokenService.createJWT(data));
     }
+
     
 }

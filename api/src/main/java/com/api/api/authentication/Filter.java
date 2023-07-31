@@ -25,7 +25,8 @@ public class Filter {
             return httpSecurity
             .csrf(csrf-> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeRequests(authorize-> authorize.anyRequest().permitAll())
+            .authorizeRequests(authorize-> authorize.requestMatchers(HttpMethod.POST, "/login").permitAll()
+                                            .anyRequest().authenticated())
             .addFilterBefore(beforeFilter,UsernamePasswordAuthenticationFilter.class)
             .build();
         }
