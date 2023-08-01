@@ -1,4 +1,4 @@
-package com.api.api.repository;
+package com.api.api.repository.user;
 
 public enum UserRole {
     ADMIN("admin"),

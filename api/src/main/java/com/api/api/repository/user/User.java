@@ -1,4 +1,4 @@
-package com.api.api.repository;
+package com.api.api.repository.user;
 
 import java.util.Collection;
 import java.util.List;

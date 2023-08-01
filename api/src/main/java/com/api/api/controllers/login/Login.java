@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.api.repository.UserInterface;
+import com.api.api.repository.user.UserInterface;
 import com.api.api.service.TokenService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +25,9 @@ public class Login {
     public ResponseEntity postMethodName(@RequestBody LoginDTO data) {
         
         UserDetails login = this.user.findBylogin(data.user());
-
-        return ResponseEntity.ok(tokenService.createJWT(data));
+        String token = tokenService.createJWT(login);
+        ResponseDTO res  = new ResponseDTO(login, token);
+        return ResponseEntity.ok(res);
     }
 
     
