@@ -2,7 +2,9 @@ package com.api.api.authentication;
 
 import java.io.IOException;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.api.api.repository.user.UserInterface;
 import com.api.api.service.TokenService;
+import com.fasterxml.jackson.core.io.JsonEOFException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -38,7 +43,14 @@ public class BeforeFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         }
-
+        if (request.getHeader("Authorization") == null) {
+            ResponseErrorDTO responseErrorDTO = new ResponseErrorDTO("401", "erro de autenticação");
+            response.setContentType( "application/json");
+            response.setCharacterEncoding("UTF-8");
+            ObjectMapper objectMapper = new ObjectMapper();
+            response.getWriter().print(objectMapper.writeValueAsString(responseErrorDTO));
+            return;
+        }
         filterChain.doFilter(request, response);
 
     }

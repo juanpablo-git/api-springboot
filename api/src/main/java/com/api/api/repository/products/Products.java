@@ -24,6 +24,19 @@ public class Products {
      public Products() {
        
     }
+
+    public Integer getId() {
+        return id;
+    }
+    public Integer getActive() {
+        return active;
+    }
+    public String getName() {
+        return name;
+    }
+    public Float getPrice() {
+        return price;
+    }
     
     
 

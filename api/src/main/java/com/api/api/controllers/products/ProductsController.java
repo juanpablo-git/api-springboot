@@ -4,10 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
-import com.api.api.repository.products.DeleteProductsDTO;
 import com.api.api.repository.products.Products;
 import com.api.api.repository.products.ProductsDTO;
 import com.api.api.repository.products.ProductsInterface;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -24,6 +29,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class ProductsController {
     @Autowired
     ProductsInterface productsInterface;
+
+    @GetMapping()
+    public List<Products> getMethodName() {
+        List<Products> products = this.productsInterface.findAll().stream().map((i) -> {
+            Products p = new Products(i.getName(),i.getPrice(),i.getActive()) ;
+            return p;
+        } ).toList();
+        return products;
+    }
+    
     
     @PostMapping()
     public ResponseEntity postMethodName(@RequestBody ProductsDTO data) {

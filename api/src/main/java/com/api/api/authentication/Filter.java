@@ -25,9 +25,10 @@ public class Filter {
             return httpSecurity
             .csrf(csrf-> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeRequests(authorize-> authorize.requestMatchers(HttpMethod.POST, "/login").permitAll()
+            .authorizeHttpRequests(authorize-> authorize.requestMatchers(HttpMethod.POST, "/login").permitAll()
                                            .requestMatchers(HttpMethod.POST,"/products").hasRole("ADMIN")
                                             .requestMatchers(HttpMethod.DELETE,"/products").hasRole("ADMIN")
+                                            .requestMatchers(HttpMethod.GET,"/products").hasAnyRole("USER")
                                             .anyRequest().authenticated()
                                 )
             .addFilterBefore(beforeFilter,UsernamePasswordAuthenticationFilter.class)
